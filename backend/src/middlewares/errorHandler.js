@@ -1,17 +1,19 @@
-import ApiError from "../utils/apiError.js";
+import { ApiError } from "../utils/apiError.js";
 
 const errorHandler = (err, req, res, next) => {
-  // if it's our own ApiError — use its data directly
+  console.log("ERROR:", err);
+  console.log("IS ApiError:", err instanceof ApiError);
+  console.log("statusCode:", err.statusCode);
+  console.log("message:", err.message);
+
   if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
       success: false,
       message: err.message,
-      errors: err.errors,
       statusCode: err.statusCode,
     });
   }
 
-  // mongodb bad ID like /users/invalidid
   if (err.name === "CastError") {
     return res.status(400).json({
       success: false,
