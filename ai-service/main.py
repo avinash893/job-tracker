@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
+from routers.job_router import router as job_router
 
-load_dotenv()  # reads .env file, like dotenv.config() in Node
+load_dotenv()
 
 app = FastAPI(
     title="Job Tracker AI Service",
@@ -9,7 +10,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# health check route
-app.get("/")
+# mount router
+app.include_router(job_router, prefix="/api")
+
+# health check
+@app.get("/")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "AI service is running"}
