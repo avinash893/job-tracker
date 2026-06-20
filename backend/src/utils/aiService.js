@@ -1,20 +1,20 @@
+import axios from "axios";
+import dotenv from "dotenv";
+
 const analyzeJob = async (jobUrl, userSkills) => {
   try {
-    const response = await fetch("http://localhost:8000/api/analyze", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await axios.post(
+      `${process.env.AI_SERVICE_URL}/api/analyze`,
+      {
+        jobUrl,
+        userSkills,
       },
-      body: JSON.stringify({ jobUrl, userSkills }),
-    });
-
-    if (!response.ok) return null;
-
-    const data = await response.json();
-    return data;
+    );
+    return response.data;
   } catch (error) {
     console.error("AI service error:", error.message);
-    return null; 
+    console.error("Full error:", error.response?.data || error.code);
+    return null;
   }
 };
 

@@ -5,6 +5,7 @@ import {
   updateJobById,
   deleteJobById,
 } from "../repositories/job.repository.js";
+import { findUserById } from "../repositories/user.repository.js";
 import { ApiError } from "../utils/apiError.js";
 import analyzeJob from "../utils/aiService.js";
 
