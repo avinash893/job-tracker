@@ -6,7 +6,9 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-model = SentenceTransformer("models/skill_matcher")
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model = SentenceTransformer(os.path.join(BASE_DIR, "models", "skill_matcher"))
 
 router = APIRouter()
 

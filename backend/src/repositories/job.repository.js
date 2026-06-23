@@ -5,20 +5,18 @@ export const createJob = async (jobData) => {
   return await job.save();
 };
 
-export const findAllJobsByUser = async (userId) => {
-  return await Job.find({ user: userId });
+export const findAllJobs = async () => {
+  return await Job.find().populate("postedBy", "name email");
 };
 
-export const findJobById = async (jobId, userId) => {
-  return await Job.findOne({ _id: jobId, user: userId });
+export const findJobById = async (jobId) => {
+  return await Job.findById(jobId).populate("postedBy", "name email");
 };
 
-export const updateJobById = async (jobId, userId, updateData) => {
-  return await Job.findOneAndUpdate({ _id: jobId, user: userId }, updateData, {
-    new: true,
-  });
+export const updateJobById = async (jobId, updateData) => {
+  return await Job.findByIdAndUpdate(jobId, updateData, { new: true });
 };
 
-export const deleteJobById = async (jobId, userId) => {
-  return await Job.findOneAndDelete({ _id: jobId, user: userId });
+export const deleteJobById = async (jobId, postedBy) => {
+  return await Job.findOneAndDelete({ _id: jobId, postedBy });
 };
