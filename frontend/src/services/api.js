@@ -21,4 +21,6 @@ export const getJob = (id) => api.get(`/jobs/${id}`);
 export const updateJob = (id, data) => api.put(`/jobs/${id}`, data);
 export const deleteJob = (id) => api.delete(`/jobs/${id}`);
 
+export const updateProfile = (data) => api.put("/users/profile", data);
+
 export default api;

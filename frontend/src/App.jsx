@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import JobDetail from "./pages/JobDetail";
 import AddJob from "./pages/AddJob";
-
+import Home from "./pages/Home";
 export default function App() {
   return (
     <>
@@ -16,6 +16,8 @@ export default function App() {
             {/*public routes*/}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Navigate to="/" />} />
 
             {/* protected routes */}
 

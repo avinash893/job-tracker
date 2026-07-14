@@ -87,3 +87,7 @@ model.fit(
 print("Saving model...")
 model.save("models/skill_matcher")
 print("Done! Model saved to models/skill_matcher")
+# push to HuggingFace Hub
+print("Pushing model to HuggingFace...")
+model.push_to_hub("job-skill-matcher")
+print("Done! Model pushed to HuggingFace Hub")

@@ -20,13 +20,24 @@ class AnalyzeResponse(BaseModel):
     keywords: list[str]
     matchScore: float
     skillScores: dict[str, float]
+    company: str
+    role: str
 
 @router.post("/analyze", response_model=AnalyzeResponse)
 async def analyze_job(request: AnalyzeRequest):
-    text = scrape_job(request.jobUrl)
+    scrape_result = scrape_job(request.jobUrl)
 
+    text = scrape_result["text"]
     if not text:
-        raise HTTPException(status_code=400, detail="Could not scrape job URL")
+        # Bypass Cloudflare blocks by returning a valid fallback response
+        # carrying the URL-parsed metadata instead of throwing a 400 error.
+        return AnalyzeResponse(
+            keywords=[],
+            matchScore=0.0,
+            skillScores={},
+            company=scrape_result["company"],
+            role=scrape_result["role"]
+        )
 
     keywords = extract_keywords(text)
 
@@ -49,5 +60,7 @@ async def analyze_job(request: AnalyzeRequest):
     return AnalyzeResponse(
         keywords=keywords,
         matchScore=overall_score,
-        skillScores=skill_scores
+        skillScores=skill_scores,
+        company=scrape_result["company"],
+        role=scrape_result["role"]
     )

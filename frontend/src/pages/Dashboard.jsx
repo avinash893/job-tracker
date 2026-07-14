@@ -1,14 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getJobs, deleteJob } from "../services/api";
+import { getJobs, deleteJob, updateProfile } from "../services/api";
 import useAuth from "../hooks/useAuth";
+import "./Dashboard.css";
 
 export default function Dashboard() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { user, logout } = useAuth();
+  // Skills edit states
+  const [isEditingSkills, setIsEditingSkills] = useState(false);
+  const { user, logout, updateUser } = useAuth();
+  const [skillsInput, setSkillsInput] = useState(user?.skills?.join(", ") || "");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,91 +50,232 @@ export default function Dashboard() {
     navigate("/login");
   };
 
-  const getStatusColor = (status) => {
-    const colors = {
-      applied: "#3b82f6",
-      interviewing: "#f59e0b",
-      offered: "#10b981",
-      rejected: "#ef4444",
-      withdrawn: "#6b7280",
-    };
-    return colors[status] || "#6b7280";
+  const handleSaveSkills = async () => {
+    try {
+      const skillsArray = skillsInput
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s !== "");
+
+      const res = await updateProfile({ skills: skillsArray });
+      updateUser(res.data.data);
+      setIsEditingSkills(false);
+    } catch (err) {
+      alert("Failed to update skills. Please try again.");
+    }
   };
 
-  if (loading) return <div style={styles.center}>Loading...</div>;
-  if (error) return <div style={styles.center}>{error}</div>;
+  const getStatusStyle = (status) => {
+    const configs = {
+      applied: {
+        color: "var(--info)",
+        backgroundColor: "rgba(59, 130, 246, 0.08)",
+        borderColor: "rgba(59, 130, 246, 0.15)",
+      },
+      interviewing: {
+        color: "var(--warning)",
+        backgroundColor: "rgba(245, 158, 11, 0.08)",
+        borderColor: "rgba(245, 158, 11, 0.15)",
+      },
+      offered: {
+        color: "var(--success)",
+        backgroundColor: "rgba(16, 185, 129, 0.08)",
+        borderColor: "rgba(16, 185, 129, 0.2)",
+      },
+      rejected: {
+        color: "var(--danger)",
+        backgroundColor: "rgba(239, 68, 68, 0.08)",
+        borderColor: "rgba(239, 68, 68, 0.15)",
+      },
+      withdrawn: {
+        color: "var(--neutral)",
+        backgroundColor: "rgba(113, 113, 122, 0.08)",
+        borderColor: "rgba(113, 113, 122, 0.15)",
+      },
+    };
+    return configs[status] || configs.applied;
+  };
+
+  // Calculate dynamic stats
+  const totalApps = jobs.length;
+  const activeInterviews = jobs.filter((j) => j.status === "interviewing").length;
+  const offersReceived = jobs.filter((j) => j.status === "offered").length;
+  const matchScores = jobs.map((j) => j.matchScore).filter(Boolean);
+  const avgMatch = matchScores.length
+    ? Math.round(matchScores.reduce((a, b) => a + b, 0) / matchScores.length)
+    : 0;
+
+  const getScoreColor = (score) => {
+    if (score >= 75) return "var(--success)";
+    if (score >= 50) return "var(--warning)";
+    return "var(--danger)";
+  };
+
+  if (loading) return <div className="dash-center">Loading applications...</div>;
+  if (error) return <div className="dash-center">{error}</div>;
 
   return (
-    <div style={styles.container}>
+    <div className="dash-container">
       {/* navbar */}
-      <div style={styles.navbar}>
-        <h1 style={styles.logo}>Job Tracker</h1>
-        <div style={styles.navRight}>
-          <span>👋 {user?.name}</span>
-          <button onClick={() => navigate("/jobs/add")} style={styles.addBtn}>
+      <div className="dash-navbar">
+        <h1 className="dash-logo">JobMatch AI</h1>
+        <div className="dash-nav-right">
+          <span className="dash-user-greeting">
+            Welcome, <span className="dash-user-name">{user?.name}</span>
+          </span>
+          <button onClick={() => navigate("/jobs/add")} className="dash-add-btn">
             + Add Job
           </button>
-          <button onClick={handleLogout} style={styles.logoutBtn}>
+          <button onClick={handleLogout} className="dash-logout-btn">
             Logout
           </button>
         </div>
       </div>
 
-      {/* job list */}
-      <div style={styles.content}>
-        <h2>My Applications ({jobs.length})</h2>
+      {/* content */}
+      <div className="dash-content">
+        {/* stats panel */}
+        <div className="dash-stats-grid">
+          <div className="dash-stat-card glass-panel">
+            <span className="dash-stat-label">Total Applications</span>
+            <span className="dash-stat-val">{totalApps}</span>
+          </div>
+          <div className="dash-stat-card glass-panel">
+            <span className="dash-stat-label">Average Match Rate</span>
+            <span className="dash-stat-val">{avgMatch}%</span>
+          </div>
+          <div className="dash-stat-card glass-panel">
+            <span className="dash-stat-label">Active Interviews</span>
+            <span className="dash-stat-val">{activeInterviews}</span>
+          </div>
+          <div className="dash-stat-card glass-panel">
+            <span className="dash-stat-label">Offers Received</span>
+            <span className="dash-stat-val">{offersReceived}</span>
+          </div>
+        </div>
+
+        {/* profile skills section */}
+        <div className="dash-profile-section glass-panel">
+          <div className="dash-profile-header">
+            <h3>My Skills Profile</h3>
+            {!isEditingSkills && (
+              <button
+                onClick={() => {
+                  setSkillsInput(user?.skills?.join(", ") || "");
+                  setIsEditingSkills(true);
+                }}
+                className="dash-edit-skills-btn"
+              >
+                ✏️ Edit Skills
+              </button>
+            )}
+          </div>
+
+          {isEditingSkills ? (
+            <div className="dash-skills-edit-form">
+              <input
+                type="text"
+                value={skillsInput}
+                onChange={(e) => setSkillsInput(e.target.value)}
+                className="dash-skills-input"
+                placeholder="React, Node.js, Python, Git..."
+                autoFocus
+              />
+              <div className="dash-skills-actions">
+                <button onClick={handleSaveSkills} className="dash-save-skills-btn">
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditingSkills(false)}
+                  className="dash-cancel-skills-btn"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="dash-skills-list">
+              {user?.skills && user.skills.length > 0 ? (
+                user.skills.map((skill) => (
+                  <span key={skill} className="dash-skill-pill">
+                    {skill}
+                  </span>
+                ))
+              ) : (
+                <p className="dash-no-skills-msg">
+                  No skills listed yet. Click edit to add your skill set.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+        <div className="dash-title-section">
+          <h2>My Applications</h2>
+        </div>
 
         {jobs.length === 0 ? (
-          <div style={styles.empty}>
-            <p>No jobs added yet.</p>
-            <button onClick={() => navigate("/jobs/add")} style={styles.addBtn}>
-              + Add your first job
+          <div className="dash-empty-state glass-panel">
+            <span className="dash-empty-icon">📁</span>
+            <p>Your job board is currently empty.</p>
+            <button onClick={() => navigate("/jobs/add")} className="dash-add-btn">
+              Add your first job URL
             </button>
           </div>
         ) : (
-          <div style={styles.grid}>
+          <div className="dash-grid">
             {jobs.map((job) => (
-              <div key={job._id} style={styles.card}>
-                <div style={styles.cardHeader}>
-                  <h3 style={styles.company}>{job.company}</h3>
+              <div
+                key={job._id}
+                className={`dash-card glass-panel ${
+                  job.matchScore >= 75 ? "dash-card-glow-green" : ""
+                }`}
+              >
+                <div className="dash-card-header">
+                  <div>
+                    <h3 className="dash-company">{job.company || "Unknown Company"}</h3>
+                    <p className="dash-role">{job.role || "Job Position"}</p>
+                  </div>
                   <span
-                    style={{
-                      ...styles.status,
-                      backgroundColor: getStatusColor(job.status),
-                    }}
+                    className="dash-status-badge"
+                    style={getStatusStyle(job.status)}
                   >
                     {job.status}
                   </span>
                 </div>
 
-                <p style={styles.role}>{job.role}</p>
-
                 {job.matchScore && (
-                  <p style={styles.score}>
-                    Match Score: <strong>{job.matchScore}%</strong>
-                  </p>
+                  <div className="dash-score-wrapper">
+                    <span className="dash-score-label">Match Score:</span>
+                    <span
+                      className="dash-score-number"
+                      style={{ color: getScoreColor(job.matchScore) }}
+                    >
+                      {job.matchScore}%
+                    </span>
+                  </div>
                 )}
 
                 {job.keywords?.length > 0 && (
-                  <div style={styles.keywords}>
+                  <div className="dash-keywords">
                     {job.keywords.slice(0, 4).map((kw) => (
-                      <span key={kw} style={styles.keyword}>
+                      <span key={kw} className="dash-keyword">
                         {kw}
                       </span>
                     ))}
                   </div>
                 )}
 
-                <div style={styles.cardFooter}>
+                <div className="dash-card-footer">
                   <button
                     onClick={() => navigate(`/jobs/${job._id}`)}
-                    style={styles.viewBtn}
+                    className="dash-view-btn"
                   >
-                    View
+                    View Details
                   </button>
                   <button
                     onClick={() => handleDelete(job._id)}
-                    style={styles.deleteBtn}
+                    className="dash-delete-btn"
                   >
                     Delete
                   </button>
@@ -142,99 +288,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-const styles = {
-  container: { minHeight: "100vh", backgroundColor: "#f0f2f5" },
-  navbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "1rem 2rem",
-    backgroundColor: "white",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-  },
-  logo: { margin: 0, color: "#4f46e5" },
-  navRight: { display: "flex", alignItems: "center", gap: "1rem" },
-  content: { padding: "2rem" },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gap: "1rem",
-    marginTop: "1rem",
-  },
-  card: {
-    backgroundColor: "white",
-    padding: "1.5rem",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.08)",
-  },
-  cardHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "0.5rem",
-  },
-  company: { margin: 0, fontSize: "1.1rem" },
-  status: {
-    padding: "0.2rem 0.6rem",
-    borderRadius: "20px",
-    color: "white",
-    fontSize: "0.75rem",
-    textTransform: "capitalize",
-  },
-  role: { color: "#6b7280", margin: "0.3rem 0" },
-  score: { color: "#4f46e5", margin: "0.5rem 0" },
-  keywords: {
-    display: "flex",
-    gap: "0.4rem",
-    flexWrap: "wrap",
-    margin: "0.5rem 0",
-  },
-  keyword: {
-    backgroundColor: "#ede9fe",
-    color: "#4f46e5",
-    padding: "0.2rem 0.5rem",
-    borderRadius: "4px",
-    fontSize: "0.75rem",
-  },
-  cardFooter: {
-    display: "flex",
-    gap: "0.5rem",
-    marginTop: "1rem",
-  },
-  addBtn: {
-    backgroundColor: "#4f46e5",
-    color: "white",
-    border: "none",
-    padding: "0.5rem 1rem",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  logoutBtn: {
-    backgroundColor: "transparent",
-    border: "1px solid #ccc",
-    padding: "0.5rem 1rem",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  viewBtn: {
-    backgroundColor: "#4f46e5",
-    color: "white",
-    border: "none",
-    padding: "0.4rem 0.8rem",
-    borderRadius: "4px",
-    cursor: "pointer",
-    flex: 1,
-  },
-  deleteBtn: {
-    backgroundColor: "#ef4444",
-    color: "white",
-    border: "none",
-    padding: "0.4rem 0.8rem",
-    borderRadius: "4px",
-    cursor: "pointer",
-    flex: 1,
-  },
-  empty: { textAlign: "center", marginTop: "3rem" },
-  center: { textAlign: "center", marginTop: "3rem" },
-};

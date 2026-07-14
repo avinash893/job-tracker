@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import {
   createUser,
   findUserByEmail,
+  findUserById,
 } from "../repositories/user.repository.js";
 import { ApiError } from "../utils/apiError.js";
 
@@ -49,5 +50,25 @@ export const loginUser = async ({ email, password }) => {
       email: user.email,
       skills: user.skills,
     },
+  };
+};
+
+export const updateUserProfile = async (userId, updateData) => {
+  const user = await findUserById(userId);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  if (updateData.skills) {
+    user.skills = updateData.skills;
+  }
+
+  await user.save();
+
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email,
+    skills: user.skills,
   };
 };

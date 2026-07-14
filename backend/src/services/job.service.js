@@ -22,6 +22,8 @@ export const addJob = async (userId, jobData) => {
         keywords: analysis.keywords,
         matchScore: analysis.matchScore,
         scrapedData: JSON.stringify(analysis.skillScores),
+        company: jobData.company || analysis.company || "Unknown Company",
+        role: jobData.role || analysis.role || "Job Position",
       });
     }
   }

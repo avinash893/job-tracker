@@ -1,4 +1,4 @@
-import { registerUser, loginUser } from "../services/user.service.js";
+import { registerUser, loginUser, updateUserProfile } from "../services/user.service.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 
@@ -18,4 +18,12 @@ export const login = asyncHandler(async (req, res) => {
   const data = await loginUser({ email, password });
 
   res.status(200).json(new ApiResponse(200, data, "Login successful"));
+});
+
+export const updateProfile = asyncHandler(async (req, res) => {
+  const { skills } = req.body;
+
+  const data = await updateUserProfile(req.user._id, { skills });
+
+  res.status(200).json(new ApiResponse(200, data, "Profile updated successfully"));
 });
