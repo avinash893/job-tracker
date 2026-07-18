@@ -12,7 +12,13 @@ torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-model = SentenceTransformer(os.path.join(BASE_DIR, "models", "skill_matcher"))
+model_path = os.path.join(BASE_DIR, "models", "skill_matcher")
+
+if os.path.exists(model_path):
+    model = SentenceTransformer(model_path)
+else:
+    # Fallback to downloading model weights from Hugging Face Hub
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
 router = APIRouter()
 
