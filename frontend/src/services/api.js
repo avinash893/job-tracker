@@ -22,5 +22,10 @@ export const updateJob = (id, data) => api.put(`/jobs/${id}`, data);
 export const deleteJob = (id) => api.delete(`/jobs/${id}`);
 
 export const updateProfile = (data) => api.put("/users/profile", data);
+export const uploadResume = (formData) => api.post("/users/profile/resume", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
 export default api;

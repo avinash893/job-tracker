@@ -1,0 +1,339 @@
+/* Account.css - LinkedIn Green Theme (Light) */
+
+.acc-container {
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+.acc-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.acc-logo {
+  font-family: var(--font-headings);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary); /* Corporate Green */
+}
+
+.acc-nav-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.acc-back-dash-btn {
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 20px; /* Pill */
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-back-dash-btn:hover {
+  background: var(--primary-glow);
+}
+
+.acc-logout-btn {
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  border-radius: 20px; /* Pill */
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-logout-btn:hover {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--text-main);
+}
+
+.acc-content {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.acc-page-title {
+  font-family: var(--font-headings);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-main);
+}
+
+.acc-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .acc-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.acc-card-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.acc-main-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.acc-card {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.acc-card h3 {
+  font-family: var(--font-headings);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.acc-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.acc-info-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.acc-info-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.acc-info-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.acc-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Upload styles */
+.acc-upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.acc-file-input-wrapper {
+  width: 100%;
+}
+
+.acc-file-label {
+  display: block;
+  width: 100%;
+  padding: 1.5rem;
+  border: 2px dashed var(--border-light);
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--bg-main);
+  transition: var(--transition-smooth);
+}
+
+.acc-file-label:hover {
+  border-color: var(--primary);
+  background: var(--primary-glow);
+}
+
+.acc-upload-btn {
+  padding: 0.75rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-upload-btn:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.acc-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Skills section styles */
+.acc-skills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.acc-edit-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-edit-btn:hover {
+  background: var(--primary-glow);
+}
+
+.acc-skills-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.acc-skills-input {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  width: 100%;
+  transition: var(--transition-smooth);
+}
+
+.acc-skills-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.acc-skills-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.acc-save-btn {
+  padding: 0.45rem 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-save-btn:hover {
+  background: var(--primary-hover);
+}
+
+.acc-cancel-btn {
+  padding: 0.45rem 1rem;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.acc-cancel-btn:hover {
+  background: rgba(0, 0, 0, 0.02);
+  color: var(--text-main);
+}
+
+.acc-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.acc-skill-pill {
+  background: var(--bg-main);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+
+.acc-skill-pill:hover {
+  background: var(--primary-glow);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.acc-no-skills {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Messages */
+.acc-success {
+  background: rgba(0, 127, 84, 0.05);
+  color: var(--success);
+  border: 1px solid rgba(0, 127, 84, 0.15);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.acc-error {
+  background: rgba(204, 17, 17, 0.05);
+  color: var(--danger);
+  border: 1px solid rgba(204, 17, 17, 0.15);
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}

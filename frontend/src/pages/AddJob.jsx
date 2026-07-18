@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createJob } from "../services/api";
+import { useToast } from "../context/ToastContext";
 import "./AddJob.css";
 
 export default function AddJob() {
@@ -11,6 +12,7 @@ export default function AddJob() {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +21,11 @@ export default function AddJob() {
 
     try {
       await createJob({ jobUrl, company, role });
+      showToast("Job application posted successfully!", "success");
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to add job");
+      showToast(err.response?.data?.message || "Failed to add job", "error");
     } finally {
       setLoading(false);
     }

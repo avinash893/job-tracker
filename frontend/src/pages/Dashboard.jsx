@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getJobs, deleteJob, updateProfile } from "../services/api";
 import useAuth from "../hooks/useAuth";
+import { useToast } from "../context/ToastContext";
 import "./Dashboard.css";
 
 export default function Dashboard() {
@@ -15,6 +16,7 @@ export default function Dashboard() {
   const [skillsInput, setSkillsInput] = useState(user?.skills?.join(", ") || "");
 
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   useEffect(() => {
     fetchJobs();
@@ -40,8 +42,9 @@ export default function Dashboard() {
     try {
       await deleteJob(id);
       setJobs(jobs.filter((job) => job._id !== id));
+      showToast("Job application deleted successfully!", "success");
     } catch (err) {
-      alert("Failed to delete job");
+      showToast("Failed to delete job.", "error");
     }
   };
 
@@ -111,7 +114,6 @@ export default function Dashboard() {
     return "var(--danger)";
   };
 
-  if (loading) return <div className="dash-center">Loading applications...</div>;
   if (error) return <div className="dash-center">{error}</div>;
 
   return (
@@ -126,6 +128,9 @@ export default function Dashboard() {
           <button onClick={() => navigate("/jobs/add")} className="dash-add-btn">
             + Add Job
           </button>
+          <button onClick={() => navigate("/account")} className="dash-logout-btn">
+            Profile
+          </button>
           <button onClick={handleLogout} className="dash-logout-btn">
             Logout
           </button>
@@ -138,19 +143,35 @@ export default function Dashboard() {
         <div className="dash-stats-grid">
           <div className="dash-stat-card glass-panel">
             <span className="dash-stat-label">Total Applications</span>
-            <span className="dash-stat-val">{totalApps}</span>
+            {loading ? (
+              <div className="skeleton" style={{ height: "36px", width: "40px", marginTop: "0.25rem" }} />
+            ) : (
+              <span className="dash-stat-val">{totalApps}</span>
+            )}
           </div>
           <div className="dash-stat-card glass-panel">
             <span className="dash-stat-label">Average Match Rate</span>
-            <span className="dash-stat-val">{avgMatch}%</span>
+            {loading ? (
+              <div className="skeleton" style={{ height: "36px", width: "50px", marginTop: "0.25rem" }} />
+            ) : (
+              <span className="dash-stat-val">{avgMatch}%</span>
+            )}
           </div>
           <div className="dash-stat-card glass-panel">
             <span className="dash-stat-label">Active Interviews</span>
-            <span className="dash-stat-val">{activeInterviews}</span>
+            {loading ? (
+              <div className="skeleton" style={{ height: "36px", width: "40px", marginTop: "0.25rem" }} />
+            ) : (
+              <span className="dash-stat-val">{activeInterviews}</span>
+            )}
           </div>
           <div className="dash-stat-card glass-panel">
             <span className="dash-stat-label">Offers Received</span>
-            <span className="dash-stat-val">{offersReceived}</span>
+            {loading ? (
+              <div className="skeleton" style={{ height: "36px", width: "40px", marginTop: "0.25rem" }} />
+            ) : (
+              <span className="dash-stat-val">{offersReceived}</span>
+            )}
           </div>
         </div>
 
@@ -214,7 +235,31 @@ export default function Dashboard() {
           <h2>My Applications</h2>
         </div>
 
-        {jobs.length === 0 ? (
+        {loading ? (
+          <div className="dash-grid">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="dash-card glass-panel">
+                <div className="dash-card-header">
+                  <div style={{ width: "100%" }}>
+                    <div className="skeleton skeleton-title" style={{ width: "70%" }} />
+                    <div className="skeleton skeleton-bar" style={{ width: "40%", height: "14px" }} />
+                  </div>
+                  <div className="skeleton skeleton-badge" />
+                </div>
+                <div className="skeleton skeleton-bar" style={{ width: "50%", height: "18px", marginTop: "1rem", marginBottom: "1rem" }} />
+                <div className="dash-keywords">
+                  <div className="skeleton skeleton-badge" style={{ width: "60px" }} />
+                  <div className="skeleton skeleton-badge" style={{ width: "80px" }} />
+                  <div className="skeleton skeleton-badge" style={{ width: "50px" }} />
+                </div>
+                <div className="dash-card-footer" style={{ marginTop: "1.5rem" }}>
+                  <div className="skeleton skeleton-button" style={{ width: "90px" }} />
+                  <div className="skeleton skeleton-button" style={{ width: "70px" }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : jobs.length === 0 ? (
           <div className="dash-empty-state glass-panel">
             <span className="dash-empty-icon">📁</span>
             <p>Your job board is currently empty.</p>
@@ -273,12 +318,14 @@ export default function Dashboard() {
                   >
                     View Details
                   </button>
-                  <button
-                    onClick={() => handleDelete(job._id)}
-                    className="dash-delete-btn"
-                  >
-                    Delete
-                  </button>
+                  {(job.postedBy === user?.id || job.postedBy?._id === user?.id) && (
+                    <button
+                      onClick={() => handleDelete(job._id)}
+                      className="dash-delete-btn"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

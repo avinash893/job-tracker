@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from routers.job_router import router as job_router
+from routers.extractor_router import router as extractor_router
 
 load_dotenv()
 
@@ -10,8 +11,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# mount router
+# mount routers
 app.include_router(job_router, prefix="/api")
+app.include_router(extractor_router, prefix="/api")
 
 # health check
 @app.get("/")

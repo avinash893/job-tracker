@@ -36,6 +36,16 @@ export const getAllJobs = async () => {
   if (!jobs || jobs.length === 0) {
     throw new ApiError(404, "No jobs found");
   }
+
+  // Auto-expire jobs if past expiresAt
+  const now = new Date();
+  for (let job of jobs) {
+    if (job.status === "open" && job.expiresAt && new Date(job.expiresAt) < now) {
+      job.status = "closed";
+      await job.save();
+    }
+  }
+
   return jobs;
 };
 

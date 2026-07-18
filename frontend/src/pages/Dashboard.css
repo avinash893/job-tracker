@@ -1,4 +1,4 @@
-/* Dashboard.css - Classic Slate Glassy Dashboard */
+/* Dashboard.css - LinkedIn Green Theme (Light) */
 
 .dash-container {
   min-height: 100vh;
@@ -11,10 +11,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 2rem;
-  background: rgba(12, 14, 18, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 2rem;
+  background: var(--bg-card);
   border-bottom: 1px solid var(--border-light);
   position: sticky;
   top: 0;
@@ -25,7 +23,7 @@
   font-family: var(--font-headings);
   font-size: 1.4rem;
   font-weight: 700;
-  color: white;
+  color: var(--primary); /* Corporate Green */
 }
 
 .dash-nav-right {
@@ -41,15 +39,15 @@
 
 .dash-user-name {
   color: var(--text-main);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .dash-add-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.2rem;
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -61,11 +59,11 @@
 }
 
 .dash-logout-btn {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.2rem;
   background: transparent;
   border: 1px solid var(--border-light);
   color: var(--text-muted);
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   font-weight: 500;
   font-size: 0.85rem;
   cursor: pointer;
@@ -73,7 +71,7 @@
 }
 
 .dash-logout-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.03);
   color: var(--text-main);
 }
 
@@ -96,6 +94,7 @@
   font-family: var(--font-headings);
   font-size: 1.5rem;
   font-weight: 700;
+  color: var(--text-main);
 }
 
 /* stats cards section */
@@ -108,12 +107,13 @@
 
 .dash-stat-card {
   padding: 1.25rem;
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--bg-card);
   border: 1px solid var(--border-light);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .dash-stat-label {
@@ -121,13 +121,14 @@
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .dash-stat-val {
   font-family: var(--font-headings);
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-main);
 }
 
 /* job applications grid */
@@ -146,14 +147,14 @@
   border-radius: 8px;
 }
 
-/* Highlight border for high match scores instead of gradient glows */
+/* Solid highlighted border for high match scores */
 .dash-card-glow-green {
-  border-color: rgba(16, 185, 129, 0.25);
-  background: rgba(16, 185, 129, 0.015);
+  border-color: var(--primary);
+  background: var(--primary-glow) !important;
 }
 
 .dash-card-glow-green:hover {
-  border-color: rgba(16, 185, 129, 0.4);
+  border-color: var(--primary-hover);
 }
 
 .dash-card-header {
@@ -167,17 +168,17 @@
   font-family: var(--font-headings);
   font-size: 1.2rem;
   font-weight: 600;
-  color: white;
+  color: var(--text-main);
   margin: 0;
 }
 
 .dash-status-badge {
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 4px;
   font-size: 0.7rem;
   font-weight: 600;
   text-transform: capitalize;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-light);
 }
 
 .dash-role {
@@ -201,7 +202,7 @@
 .dash-score-number {
   font-family: var(--font-headings);
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Keywords styles */
@@ -212,7 +213,7 @@
 }
 
 .dash-keyword {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-main);
   color: var(--text-muted);
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
@@ -230,10 +231,10 @@
 .dash-view-btn {
   flex: 2;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--text-main);
-  border: 1px solid var(--border-light);
-  border-radius: 6px;
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 20px; /* Pill shape */
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -249,10 +250,10 @@
 .dash-delete-btn {
   flex: 1;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.01);
+  background: transparent;
   color: var(--text-muted);
   border: 1px solid var(--border-light);
-  border-radius: 6px;
+  border-radius: 20px; /* Pill shape */
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -269,15 +270,16 @@
 .dash-empty-state {
   text-align: center;
   padding: 4rem 2rem;
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--bg-card);
   border: 1px dashed var(--border-light);
-  border-radius: 12px;
+  border-radius: 8px;
   max-width: 480px;
   margin: 3rem auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .dash-empty-state p {
@@ -299,6 +301,7 @@
   color: var(--text-muted);
   background-color: var(--bg-main);
 }
+
 @media (max-width: 768px) {
   .dash-navbar {
     padding: 1rem;
@@ -325,25 +328,24 @@
 .dash-profile-header h3 {
   font-family: var(--font-headings);
   font-size: 1.15rem;
-  font-weight: 600;
-  color: white;
+  font-weight: 700;
+  color: var(--text-main);
 }
 
 .dash-edit-skills-btn {
   background: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
+  border: 1px solid var(--primary);
+  color: var(--primary);
   padding: 0.35rem 0.85rem;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition-smooth);
 }
 
 .dash-edit-skills-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
+  background: var(--primary-glow);
 }
 
 .dash-skills-edit-form {
@@ -353,22 +355,21 @@
 }
 
 .dash-skills-input {
-  background: rgba(255, 255, 255, 0.02);
+  background: #ffffff;
   border: 1px solid var(--border-light);
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 0.65rem 0.85rem;
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: white;
+  font-size: 0.95rem;
+  color: var(--text-main);
   width: 100%;
   transition: var(--transition-smooth);
 }
 
 .dash-skills-input:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.05);
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 0 1px var(--primary);
 }
 
 .dash-skills-actions {
@@ -381,7 +382,7 @@
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 20px;
   font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
@@ -397,7 +398,7 @@
   background: transparent;
   border: 1px solid var(--border-light);
   color: var(--text-muted);
-  border-radius: 6px;
+  border-radius: 20px;
   font-weight: 500;
   font-size: 0.85rem;
   cursor: pointer;
@@ -405,7 +406,7 @@
 }
 
 .dash-cancel-skills-btn:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.02);
   color: var(--text-main);
 }
 
@@ -416,19 +417,20 @@
 }
 
 .dash-skill-pill {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-main);
   color: var(--text-muted);
   border: 1px solid var(--border-light);
   padding: 0.3rem 0.8rem;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   font-size: 0.8rem;
   font-weight: 500;
   transition: var(--transition-smooth);
 }
 
 .dash-skill-pill:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
+  background: var(--primary-glow);
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .dash-no-skills-msg {

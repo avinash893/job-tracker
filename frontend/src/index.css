@@ -1,40 +1,40 @@
 :root {
-  /* Color Palette - Classic Glassy Theme */
-  --bg-main: #0c0e12;
-  --bg-card: rgba(255, 255, 255, 0.035);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
+  /* Color Palette - LinkedIn Green Theme (Light) */
+  --bg-main: #f3f2f0;           /* Clean soft gray page background */
+  --bg-card: #ffffff;           /* Pure white card backgrounds */
+  --bg-card-hover: #ffffff;
   
-  --primary: #3b82f6; /* Classic Royal Blue */
-  --primary-hover: #2563eb;
-  --primary-glow: rgba(59, 130, 246, 0.1);
-  --primary-border: rgba(59, 130, 246, 0.25);
+  --primary: #007f54;           /* Solid Professional Green */
+  --primary-hover: #005e3e;     /* Darker Green on Hover */
+  --primary-glow: rgba(0, 127, 84, 0.05);
+  --primary-border: #e0e0e0;
   
-  --secondary: #0ea5e9; /* Light Blue / Sky */
-  --secondary-glow: rgba(14, 165, 233, 0.08);
+  --secondary: #009e69;         /* Accent Green */
+  --secondary-glow: rgba(0, 158, 105, 0.05);
   
-  --text-main: #f3f4f6; /* Off-white */
-  --text-muted: #9ca3af; /* Muted gray */
-  --text-inverse: #0c0e12;
+  --text-main: #191919;         /* Dark Charcoal */
+  --text-muted: #666666;        /* Slate Muted Gray */
+  --text-inverse: #ffffff;      /* White text for primary buttons */
   
-  --border-light: rgba(255, 255, 255, 0.07);
-  --border-focus: rgba(59, 130, 246, 0.4);
+  --border-light: #e0e0e0;      /* Solid light border */
+  --border-focus: #007f54;      /* Green focus outline */
   
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 0 15px rgba(59, 130, 246, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-glow: none;          /* Flat design, no glow */
   
-  /* Status Colors */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #3b82f6;
-  --neutral: #6b7280;
+  /* Status Colors (Solid, flat) */
+  --success: #007f54;
+  --warning: #b26a00;           /* Slightly darker for readability on light background */
+  --danger: #cc1111;
+  --info: #006699;
+  --neutral: #5c5c5c;
   
   /* Fonts */
   --font-headings: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Transition */
-  --transition-smooth: all 0.2s ease-in-out;
+  --transition-smooth: all 0.15s ease-in-out;
 }
 
 /* Global resets and structure */
@@ -71,27 +71,25 @@ body {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
 }
 
-/* Dynamic glow glass container utility */
+/* Solid card panel utility */
 .glass-panel {
   background: var(--bg-card);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-light);
-  border-radius: 12px;
+  border-radius: 8px; /* LinkedIn card radius is 8px */
   box-shadow: var(--shadow-lg);
   transition: var(--transition-smooth);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: var(--bg-card-hover);
+  border-color: #c7c7c7;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 /* Animations */
@@ -102,4 +100,125 @@ body {
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Toast System (LinkedIn Flat Green) */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  z-index: 9999;
+}
+
+.toast {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 280px;
+  animation: toastSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-success {
+  border-left: 4px solid var(--success);
+}
+
+.toast-error {
+  border-left: 4px solid var(--danger);
+}
+
+.toast-info {
+  border-left: 4px solid var(--info);
+}
+
+.toast-icon {
+  font-size: 1.1rem;
+}
+
+.toast-message {
+  flex-grow: 1;
+}
+
+.toast-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+  transition: var(--transition-smooth);
+}
+
+.toast-close-btn:hover {
+  color: var(--text-main);
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Skeleton loader system */
+.skeleton {
+  background: #e1e9ee;
+  background-image: linear-gradient(
+    90deg,
+    #e1e9ee 0px,
+    #f2f5f7 50px,
+    #e1e9ee 100px
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  animation: skeletonShimmer 1.2s infinite linear;
+  border-radius: 4px;
+}
+
+.skeleton-bar {
+  height: 12px;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 22px;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.skeleton-badge {
+  height: 20px;
+  width: 80px;
+  border-radius: 12px;
+}
+
+.skeleton-button {
+  height: 35px;
+  width: 100px;
+  border-radius: 20px;
+}
+
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -150px 0;
+  }
+  100% {
+    background-position: 250px 0;
+  }
 }

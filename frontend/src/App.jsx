@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastProvider } from "./context/ToastContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -7,12 +8,15 @@ import Dashboard from "./pages/Dashboard";
 import JobDetail from "./pages/JobDetail";
 import AddJob from "./pages/AddJob";
 import Home from "./pages/Home";
+import Account from "./pages/Account";
+
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
+          <ToastProvider>
+            <Routes>
             {/*public routes*/}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -46,7 +50,16 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
+          </ToastProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

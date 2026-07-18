@@ -25,6 +25,10 @@ const jobSchema = new mongoose.Schema(
     keywords: [String],
     matchScore: { type: Number, default: null },
     scrapedData: { type: String, default: null },
+    expiresAt: {
+      type: Date,
+      default: () => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Defaults to 7 days from creation
+    },
   },
   { timestamps: true }
 );

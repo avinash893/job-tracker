@@ -1,4 +1,4 @@
-/* JobDetail.css - Classic Slate Glassy Details */
+/* JobDetail.css - LinkedIn Green Theme (Light) */
 
 .jd-container {
   min-height: 100vh;
@@ -15,15 +15,15 @@
 }
 
 .jd-back-btn {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
   padding: 0.45rem 1.1rem;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   transition: var(--transition-smooth);
   display: inline-flex;
@@ -32,8 +32,7 @@
 }
 
 .jd-back-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
+  background: var(--primary-glow);
 }
 
 .jd-header {
@@ -46,7 +45,7 @@
   font-family: var(--font-headings);
   font-size: 2rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-main);
   margin-bottom: 0.4rem;
   line-height: 1.2;
 }
@@ -55,46 +54,46 @@
   font-family: var(--font-headings);
   font-size: 1.15rem;
   color: var(--primary);
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 0.75rem;
 }
 
 .jd-status {
   display: inline-block;
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.6rem;
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: capitalize;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-light);
   margin-bottom: 0.75rem;
 }
 
 /* Badge modifiers */
 .jd-status.applied {
   color: var(--info);
-  background: rgba(59, 130, 246, 0.08);
-  border-color: rgba(59, 130, 246, 0.15);
+  background: rgba(0, 102, 153, 0.05);
+  border-color: rgba(0, 102, 153, 0.15);
 }
 .jd-status.interviewing {
   color: var(--warning);
-  background: rgba(245, 158, 11, 0.08);
-  border-color: rgba(245, 158, 11, 0.15);
+  background: rgba(178, 106, 0, 0.05);
+  border-color: rgba(178, 106, 0, 0.15);
 }
 .jd-status.offered {
   color: var(--success);
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.2);
+  background: var(--primary-glow);
+  border-color: rgba(0, 127, 84, 0.15);
 }
 .jd-status.rejected {
   color: var(--danger);
-  background: rgba(239, 68, 68, 0.08);
-  border-color: rgba(239, 68, 68, 0.15);
+  background: rgba(204, 17, 17, 0.05);
+  border-color: rgba(204, 17, 17, 0.15);
 }
 .jd-status.withdrawn {
   color: var(--neutral);
-  background: rgba(113, 113, 122, 0.08);
-  border-color: rgba(113, 113, 122, 0.15);
+  background: rgba(92, 92, 92, 0.05);
+  border-color: rgba(92, 92, 92, 0.15);
 }
 
 .jd-posted {
@@ -110,7 +109,7 @@
   background: var(--primary);
   color: white;
   padding: 0.7rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
@@ -137,8 +136,8 @@
 .jd-section h3 {
   font-family: var(--font-headings);
   font-size: 1.15rem;
-  font-weight: 600;
-  color: white;
+  font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 1rem;
 }
 
@@ -149,13 +148,19 @@
 }
 
 .jd-keyword {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg-main);
   color: var(--text-muted);
   padding: 0.35rem 0.8rem;
-  border-radius: 6px;
+  border-radius: 20px; /* Pill */
   font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid var(--border-light);
+}
+
+.jd-skill-to-learn {
+  border-color: #b26a00;
+  color: #b26a00;
+  background: rgba(178, 106, 0, 0.05);
 }
 
 .jd-match-btn {
@@ -163,7 +168,7 @@
   color: white;
   border: none;
   padding: 0.85rem 1.75rem;
-  border-radius: 6px;
+  border-radius: 24px; /* Pill */
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 0.95rem;
@@ -181,9 +186,10 @@
   font-style: italic;
   text-align: center;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.015);
-  border-radius: 6px;
+  background: var(--bg-card);
+  border-radius: 8px;
   border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
   animation: pulse-glow-text 1.5s infinite ease-in-out;
 }
 
@@ -197,10 +203,11 @@
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.015);
+  background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 12px;
+  border-radius: 8px;
   margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .jd-score-number {
@@ -208,6 +215,7 @@
   font-size: 4rem;
   font-weight: 700;
   line-height: 1;
+  color: var(--primary);
 }
 
 .jd-score-label {
@@ -216,6 +224,7 @@
   margin-top: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
 .jd-skill-row {
@@ -238,9 +247,9 @@
 
 .jd-bar-container {
   flex: 1;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(0, 0, 0, 0.05); /* Solid light gray track */
   border-radius: 4px;
-  height: 6px;
+  height: 8px;
   overflow: hidden;
 }
 
@@ -248,13 +257,14 @@
   height: 100%;
   border-radius: 4px;
   transition: width 0.8s ease-in-out;
+  background: var(--primary); /* Defaults to green */
 }
 
 .jd-skill-score {
   width: 45px;
   font-size: 0.8rem;
   font-weight: 700;
-  color: white;
+  color: var(--text-main);
   text-align: right;
   flex-shrink: 0;
 }
