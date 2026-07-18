@@ -7,6 +7,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 import os
+import torch
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 model = SentenceTransformer(os.path.join(BASE_DIR, "models", "skill_matcher"))
 
