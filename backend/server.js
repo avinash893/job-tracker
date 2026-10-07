@@ -19,6 +19,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (req, res) => {
+  res.json({ status: "Backend is running", timestamp: new Date() });
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/jobs", jobRoutes);
 
@@ -27,8 +31,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  connectDB();
 });
